@@ -9,8 +9,11 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 
-export_file_url = 'https://drive.google.com/open?id=1ThPcl2n174YKYXQlhz_49QPJOwH4LqpN'
-export_file_name = 'poke_mon_classifier.pth'
+
+
+
+export_file_url = 'https://drive.google.com/uc?export=download&?id=1g2FNFCVPXkOOQ69pu63WAY5zzaMP7k7J'
+export_file_name = 'pokemon_deploy.pkl'
 
 classes = ['Bug',
  'Dark',
