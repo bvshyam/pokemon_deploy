@@ -9,10 +9,28 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 
-export_file_url = 'https://www.dropbox.com/s/6bgq8t6yextloqp/export.pkl?raw=1'
-export_file_name = 'export.pkl'
+export_file_url = 'https://drive.google.com/open?id=1ThPcl2n174YKYXQlhz_49QPJOwH4LqpN'
+export_file_name = 'poke_mon_classifier.pth'
 
-classes = ['black', 'grizzly', 'teddys']
+classes = ['Bug',
+ 'Dark',
+ 'Dragon',
+ 'Electric',
+ 'Fairy',
+ 'Fighting',
+ 'Fire',
+ 'Flying',
+ 'Ghost',
+ 'Grass',
+ 'Ground',
+ 'Ice',
+ 'Normal',
+ 'Poison',
+ 'Psychic',
+ 'Rock',
+ 'Steel',
+ 'Water']
+
 path = Path(__file__).parent
 
 app = Starlette()
@@ -60,7 +78,28 @@ async def analyze(request):
     img_data = await request.form()
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
-    prediction = learn.predict(img)[0]
+    #prediction = learn.predict(img)[0]
+    pred_class, pred_idx, outputs = learn.predict(img, thresh=0.2)
+
+    mapping = sorted(zip(classes, outputs), key=lambda x: x[1], reverse=True)
+  
+    preds = str(pred_class).split(';')
+
+    if len(preds) >= 2:
+      # return the two highest type predictions
+      prediction = preds[0] + '/' + preds[1]
+
+    elif len(preds) == 1 and preds[0].isalnum():
+      # return the one type prediction
+      prediction = preds[0]
+
+    else:
+      # map the classes to the outputs, sort by output values
+      # return the top two type predictions
+      mapping = sorted(zip(classes, outputs), key=lambda x: x[1], reverse=True)
+      prediction = mapping[0][0] + '/' + mapping[1][0]
+    
+    
     return JSONResponse({'result': str(prediction)})
 
 
