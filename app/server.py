@@ -12,7 +12,7 @@ from starlette.staticfiles import StaticFiles
 
 
 
-export_file_url = 'https://drive.google.com/uc?export=download&?id=1g2FNFCVPXkOOQ69pu63WAY5zzaMP7k7J'
+export_file_url = 'https://drive.google.com/uc?export=download&id=1g2FNFCVPXkOOQ69pu63WAY5zzaMP7k7J'
 export_file_name = 'pokemon_deploy.pkl'
 
 classes = ['Bug',
